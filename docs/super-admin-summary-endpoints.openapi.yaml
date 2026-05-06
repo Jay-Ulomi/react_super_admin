@@ -1,0 +1,139 @@
+openapi: 3.0.3
+info:
+  title: Super Admin Summary Endpoints
+  version: 1.0.0
+  description: |
+    Contract for optional summary endpoints consumed by React Super Admin dashboards.
+    Frontend expects all responses to follow the standard API envelope:
+    { success: boolean, message?: string, data: T, errors?: unknown }.
+servers:
+  - url: https://api.example.com
+paths:
+  /api/admin/usage/summary:
+    get:
+      tags: [Super Admin]
+      summary: Get usage analytics summary
+      description: Returns pre-aggregated usage metrics for the Usage dashboard.
+      responses:
+        '200':
+          description: Usage summary loaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageSummaryEnvelope'
+  /api/admin/support/summary:
+    get:
+      tags: [Super Admin]
+      summary: Get support queue summary
+      description: Returns pre-aggregated support counters and priority tenant queue.
+      responses:
+        '200':
+          description: Support summary loaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportSummaryEnvelope'
+components:
+  schemas:
+    ApiEnvelopeBase:
+      type: object
+      required: [success, data]
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+          nullable: true
+        errors:
+          nullable: true
+    UsageSummary:
+      type: object
+      required: [totalTenants, activeTenants, totalPlans, activePlans]
+      properties:
+        totalTenants:
+          type: integer
+          minimum: 0
+        activeTenants:
+          type: integer
+          minimum: 0
+        totalPlans:
+          type: integer
+          minimum: 0
+        activePlans:
+          type: integer
+          minimum: 0
+        loadedSubscriptions:
+          type: integer
+          minimum: 0
+          nullable: true
+        catalogUtilizationPct:
+          type: number
+          format: float
+          nullable: true
+        tenantStatusMix:
+          type: object
+          additionalProperties:
+            type: integer
+            minimum: 0
+          nullable: true
+        subscriptionsByPlan:
+          type: object
+          additionalProperties:
+            type: integer
+            minimum: 0
+          nullable: true
+    UsageSummaryEnvelope:
+      allOf:
+        - $ref: '#/components/schemas/ApiEnvelopeBase'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/UsageSummary'
+    SupportQueueItem:
+      type: object
+      required: [tenantId, tenantName]
+      properties:
+        tenantId:
+          type: string
+        tenantName:
+          type: string
+        contactEmail:
+          type: string
+          nullable: true
+        contactPhone:
+          type: string
+          nullable: true
+        subscriptionStatus:
+          type: string
+          nullable: true
+        reason:
+          type: string
+          nullable: true
+    SupportSummary:
+      type: object
+      required: [pastDueTenants, inactiveTenants, missingContactTenants, suspendedSubscriptions]
+      properties:
+        pastDueTenants:
+          type: integer
+          minimum: 0
+        inactiveTenants:
+          type: integer
+          minimum: 0
+        missingContactTenants:
+          type: integer
+          minimum: 0
+        suspendedSubscriptions:
+          type: integer
+          minimum: 0
+        priorityTenants:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupportQueueItem'
+          nullable: true
+    SupportSummaryEnvelope:
+      allOf:
+        - $ref: '#/components/schemas/ApiEnvelopeBase'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/SupportSummary'

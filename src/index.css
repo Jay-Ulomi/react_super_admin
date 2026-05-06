@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+:root {
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: #1d2333;
+  background: #f4f7fb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(125, 179, 255, 0.25), transparent 35%),
+    radial-gradient(circle at 90% 0%, rgba(115, 230, 196, 0.22), transparent 30%),
+    linear-gradient(180deg, #f9fbff 0%, #f1f5fb 100%);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.font-display {
+  font-family: 'Archivo', sans-serif;
+}
