@@ -31,9 +31,9 @@ export function LoginPage() {
   return (
     <div className="grid min-h-screen place-items-center px-4">
       <div className="w-full max-w-md rounded-3xl border border-blue-100 bg-white/95 p-6 shadow-sm">
-        <p className="text-xs uppercase tracking-[0.2em] text-blue-700">Super Admin</p>
-        <h1 className="mt-2 font-display text-2xl text-slate-900">Sign in to Platform Console</h1>
-        <p className="mt-1 text-sm text-slate-500">Requires PLATFORM_ADMIN role.</p>
+        <img src="/logo.png" alt="Aduinola" className="mx-auto mb-4 h-12" />
+        <h1 className="mt-2 text-center font-display text-2xl text-slate-900">Super Admin</h1>
+        <p className="mt-1 text-center text-sm text-slate-500">Sign in with your platform admin account.</p>
         <form className="mt-6 space-y-4" onSubmit={submit}>
           <label className="block text-sm text-slate-700">
             Email
